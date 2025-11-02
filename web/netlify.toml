@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  # Use a modern Node version compatible with Next 15 and the project's dev deps
+  NODE_VERSION = "20"
+  # Keep this only if you hit peer-deps install issues; otherwise remove for normal installs
+  NPM_FLAGS = "--legacy-peer-deps"
