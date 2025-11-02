@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 type Partner = { name: string; src: string; href?: string };
 
 const PARTNERS: Partner[] = [
@@ -23,7 +25,7 @@ export default function Partners() {
         <div className="logo-grid">
           {PARTNERS.map((p) => (
             <a key={p.name} className="logo-card" href={p.href || '#'} title={p.name} aria-label={p.name}>
-              <img src={p.src} alt={p.name} className="logo-img" />
+              <Image src={p.src} alt={p.name} width={120} height={80} className="logo-img" />
             </a>
           ))}
         </div>

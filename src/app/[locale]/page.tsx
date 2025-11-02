@@ -1,11 +1,7 @@
 import Hero from "@/components/Hero";
 import ServicesFeatures from "@/components/ServicesFeatures";
-import { InteractiveCards, SAMPLE_CARDS } from "@/components/InteractiveCards";
 import Products from "@/components/Products";
-import Promos from "@/components/Promos";
-import Tools from "@/components/Tools";
 import Partners from "@/components/Partners";
-import AppCta from "@/components/AppCta";
 import Help from "@/components/Help";
 import Faq from "@/components/Faq";
 import { getDictionary } from "@/i18n";

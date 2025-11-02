@@ -67,9 +67,9 @@ export default function ParticlesJSBackground() {
         strategy="afterInteractive"
         onLoad={() => {
           try {
-            // @ts-ignore
+            // @ts-expect-error - particlesJS is loaded from CDN
             if (window.particlesJS) {
-              // @ts-ignore
+              // @ts-expect-error - particlesJS is loaded from CDN
               window.particlesJS.load("particles-js", "/particles.json", function () {});
             }
           } catch {}

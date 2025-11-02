@@ -39,6 +39,16 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const theme = localStorage.getItem('theme') || 'dark';
+                document.documentElement.dataset.theme = theme === 'dark' ? 'dark' : '';
+              })();
+            `,
+          }}
+        />
         <Header dict={dict.header} />
         <main className="min-h-[60vh]">{children}</main>
         <Footer dict={dict.footer} />

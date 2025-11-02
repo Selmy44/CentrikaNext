@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 
 export default function ThemeToggle({ className }: { className?: string }) {
-  const [theme, setTheme] = useState<string>("light");
+  const [theme, setTheme] = useState<string>("dark");
 
   useEffect(() => {
-    const stored = localStorage.getItem("theme") || "light";
+    const stored = localStorage.getItem("theme") || "dark";
     setTheme(stored);
     document.documentElement.dataset.theme = stored === "dark" ? "dark" : "";
   }, []);

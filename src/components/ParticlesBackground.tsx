@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 // Lightweight canvas particles connecting to nearest neighbors (constellation)
 // - Renders behind content; respects prefers-reduced-motion
@@ -16,7 +16,8 @@ export default function ParticlesBackground() {
     if (prefersReduced) return; // no particles for reduced motion
 
     const ctx = canvas.getContext("2d", { alpha: true })!;
-    let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let w = 0, h = 0;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
     function resize(){
       w = window.innerWidth; h = window.innerHeight;
@@ -29,10 +30,7 @@ export default function ParticlesBackground() {
     const ro = new ResizeObserver(resize); ro.observe(document.body);
 
     // Theme-aware colors from CSS variables
-    const styles = getComputedStyle(document.documentElement);
-    const brandHex = (styles.getPropertyValue("--color-brand").trim() || "#355fe6").replace('#','');
-    const baseHue = 225.0; // fallback
-    const dot = styles.getPropertyValue("--grid-dot").trim() || "rgba(2,6,23,0.06)";
+    const baseHue = 225.0; // fallback blue hue
 
     const N = Math.min(160, Math.floor(w * h / 11000));
     const pts: {x:number;y:number;vx:number;vy:number;shape:number;rot:number}[] = [];
@@ -47,7 +45,7 @@ export default function ParticlesBackground() {
       });
     }
 
-    let mouse = { x: w*0.5, y: h*0.5, active: false };
+    const mouse = { x: w*0.5, y: h*0.5, active: false };
     const onMove = (e: PointerEvent) => { mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true; };
     const onLeave = () => { mouse.active = false; };
     window.addEventListener("pointermove", onMove); window.addEventListener("pointerleave", onLeave);
@@ -57,7 +55,8 @@ export default function ParticlesBackground() {
     const onScroll = () => { const y = window.scrollY; scrollVel = (y - lastY) * 0.02; lastY = y; };
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    let raf = 0; let t0 = performance.now();
+    let raf = 0;
+    const t0 = performance.now();
     function frame(){
       raf = requestAnimationFrame(frame);
       const t = (performance.now() - t0) / 1000;

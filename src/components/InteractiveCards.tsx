@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export type InteractiveCardItem = {
   title: string;
@@ -12,11 +12,9 @@ export type InteractiveCardItem = {
 
 export function InteractiveCards({
   items,
-  columns = { base: 1, sm: 2, lg: 3, xl: 4 },
   staggerMs = 40,
 }: {
   items: InteractiveCardItem[];
-  columns?: { base: number; sm?: number; lg?: number; xl?: number };
   staggerMs?: number;
 }) {
   return (
@@ -24,7 +22,7 @@ export function InteractiveCards({
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="i-grid">
           {items.map((item, i) => (
-            <Card key={i} item={item} index={i} delay={i * staggerMs} />
+            <Card key={i} item={item} delay={i * staggerMs} />
           ))}
         </div>
       </div>
@@ -32,7 +30,7 @@ export function InteractiveCards({
   );
 }
 
-function Card({ item, index, delay }: { item: InteractiveCardItem; index: number; delay: number }) {
+function Card({ item, delay }: { item: InteractiveCardItem; delay: number }) {
   const ref = useRef<HTMLAnchorElement | HTMLDivElement | null>(null);
   const prefersReduced = useRef(false);
 
@@ -40,6 +38,7 @@ function Card({ item, index, delay }: { item: InteractiveCardItem; index: number
     prefersReduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const el = ref.current;
     if (!el || prefersReduced.current) return;
+    
 
     let raf = 0;
     const handle = (e: PointerEvent) => {
@@ -83,13 +82,13 @@ function Card({ item, index, delay }: { item: InteractiveCardItem; index: number
 
   if (item.href) {
     return (
-      <a ref={ref as any} href={item.href} className="i-card-wrap" tabIndex={0}>
+      <a ref={ref as React.RefObject<HTMLAnchorElement>} href={item.href} className="i-card-wrap" tabIndex={0}>
         {content}
       </a>
     );
   }
   return (
-    <div ref={ref as any} className="i-card-wrap" tabIndex={0} role="button" onClick={item.onClick}>
+    <div ref={ref as React.RefObject<HTMLDivElement>} className="i-card-wrap" tabIndex={0} role="button" onClick={item.onClick}>
       {content}
     </div>
   );

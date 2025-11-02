@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import ThemeToggle from "@/components/ThemeToggle";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 type NavKey = "Personal" | "Business" | "Private" | "About" | null;
 
 const NAV = (dict: HeaderDict) => [
@@ -93,6 +94,7 @@ export default function Header({ dict }: { dict: HeaderDict }) {
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
+            <LanguageSwitcher />
             <ThemeToggle />
             <button className="icon-btn" aria-label={dict.actions.search} onClick={() => setSearchOpen(true)}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
@@ -112,18 +114,24 @@ export default function Header({ dict }: { dict: HeaderDict }) {
 
         {active && (
           <div className="hidden md:block" onMouseEnter={() => openWithDelay(active)} onMouseLeave={closeWithDelay}>
-            <div className="absolute left-0 right-0 border-t border-white/10 bg-background">
-              <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-2 md:grid-cols-4 gap-6">
-                {MEGA(dict)[active].sections.map((sec) => (
-                  <div key={sec.title}>
-                    <div className="font-semibold mb-2">{sec.title}</div>
-                    <ul className="space-y-1 text-sm">
-                      {sec.links.map((l) => (
-<li key={l.label}><Link href={l.href} className="inline-block px-2 py-1 rounded-md text-foreground/80 hover:text-foreground hover:bg-[rgba(53,95,230,0.08)] transition-colors">{l.label}</Link></li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
+            <div className="submenu-bar">
+              <div className="submenu-panel">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-2 md:grid-cols-4 gap-8">
+                  {MEGA(dict)[active].sections.map((sec) => (
+                    <div key={sec.title}>
+                      <div className="font-semibold text-foreground mb-3">{sec.title}</div>
+                      <ul className="space-y-2 text-sm">
+                        {sec.links.map((l) => (
+                          <li key={l.label}>
+                            <Link href={l.href} className="submenu-link">
+                              {l.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -140,6 +148,7 @@ export default function Header({ dict }: { dict: HeaderDict }) {
               </Link>
             ))}
             <div className="pt-2 flex gap-2">
+              <LanguageSwitcher />
               <ThemeToggle />
               <button className="icon-btn" onClick={() => setSearchOpen(true)} aria-label={dict.actions.search}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
